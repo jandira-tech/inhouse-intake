@@ -1,5 +1,7 @@
 # In-house legal intake
 
+Hosted copy: https://arthrod--78a3c22ad93e11f1bdc31607ee4eb77e.web.val.run/
+
 An internal legal request demo for employees to give a legal team the facts needed to triage a matter. Based on [`arthrod/legal-intake`](https://www.val.town/x/arthrod/legal-intake), the in-house predecessor of client-intake. The design adapts the accompanying paper, ink and yellow design system; see [DESIGN.md](DESIGN.md).
 
 ## Try the flow
@@ -32,6 +34,8 @@ deno check --allow-import backend/index.http.tsx frontend/index.tsx
 ```
 
 To deploy your own copy, create or remix a Val with `vt`, then copy this repository's files into that val's local directory without replacing its `.vt` folder. Run `vt status`, `vt push --dry-run`, then `vt push`. The `.vt` directory is local deployment linkage and is not committed. Set `ADMIN_TOKEN` in your own val settings only if you intend to store and retrieve records; never commit it.
+
+Confirm `vt status` names `inhouse-intake-jandira` before pushing this tree. A checkout whose `.vt` still points at `arthrod/legal-intake` (val id `0b69a864-464f-11f1-89f9-42b51c65c3df`) will overwrite that older demo. The hosted val for this repository is `2e05e9db-e520-4de7-af5c-6a04b70d429d`.
 
 Example authenticated listing, with the token already in your shell environment:
 

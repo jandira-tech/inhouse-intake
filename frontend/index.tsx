@@ -176,8 +176,8 @@ function FrontPage({
     try {
       const response = await callPolish(answers);
       onPolished(answers, response);
-    } catch (e: any) {
-      setValidationError(String(e?.message ?? e));
+    } catch (e: unknown) {
+      setValidationError((e instanceof Error ? e.message : String(e)));
     } finally {
       setPolishing(false);
     }
@@ -186,7 +186,7 @@ function FrontPage({
   return (
     <Card>
       <form
-        onSubmit={(e: any) => {
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           submit();
         }}
@@ -309,7 +309,7 @@ function CustomInput({
           className="w-full border-2 border-dashed border-slate-300 focus:border-blue-500 rounded px-3 py-2 min-h-[88px] bg-slate-50 font-mono text-sm"
           placeholder={"Add entries — one per line\n(or separate with , or ;)"}
           value={value.custom}
-          onChange={(e: any) => onChange({ custom: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange({ custom: e.target.value })}
         />
         {live.length > 0 && (
           <div className="mt-2 text-xs text-slate-500">
@@ -329,7 +329,7 @@ function CustomInput({
         className="w-full border border-slate-300 rounded px-3 py-2 min-h-[100px]"
         placeholder={placeholder}
         value={value.custom}
-        onChange={(e: any) => onChange({ custom: e.target.value })}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange({ custom: e.target.value })}
       />
     );
   }
@@ -346,7 +346,7 @@ function CustomInput({
       className="w-full border border-slate-300 rounded px-3 py-2"
       placeholder={placeholder}
       value={value.custom}
-      onChange={(e: any) => onChange({ custom: e.target.value })}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange({ custom: e.target.value })}
     />
   );
 }
@@ -496,8 +496,8 @@ function ConfirmationPage({
     try {
       const result = await callSubmit(intake);
       onSubmitted(result);
-    } catch (e: any) {
-      setError(String(e?.message ?? e));
+    } catch (e: unknown) {
+      setError((e instanceof Error ? e.message : String(e)));
       setAskingSure(false);
     } finally {
       setSubmitting(false);
@@ -626,7 +626,7 @@ function ConfirmInput({
       <select
         className={base}
         value={(value as string) ?? ""}
-        onChange={(e: any) => onChange(e.target.value || null)}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onChange(e.target.value || null)}
       >
         <option value="">(none)</option>
         {cfg.options.map(opt => (
@@ -643,7 +643,7 @@ function ConfirmInput({
         className={base + " min-h-[88px] font-mono text-sm"}
         placeholder="One entry per line"
         value={arr.join("\n")}
-        onChange={(e: any) => onChange(splitMultiCustom(e.target.value))}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange(splitMultiCustom(e.target.value))}
       />
     );
   }
@@ -653,7 +653,7 @@ function ConfirmInput({
       <textarea
         className={base + " min-h-[110px]"}
         value={(value as string) ?? ""}
-        onChange={(e: any) => onChange(e.target.value || null)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value || null)}
       />
     );
   }
@@ -668,7 +668,7 @@ function ConfirmInput({
       type={type}
       className={base}
       value={(value as string) ?? ""}
-      onChange={(e: any) => onChange(e.target.value || null)}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value || null)}
     />
   );
 }
@@ -732,7 +732,7 @@ function SubmittedView({ result, onStartOver }: { result: SubmitResponse; onStar
 
 // ---------- Shared UI bits ----------
 
-function Card({ children }: { children: any }) {
+function Card({ children }: { children: React.ReactNode }) {
   return (
     <div className="demo-card max-w-2xl mx-auto bg-white rounded-lg shadow-sm border border-slate-200 p-6 my-8">
       {children}
@@ -740,7 +740,7 @@ function Card({ children }: { children: any }) {
   );
 }
 
-function Chip({ children, active, onClick }: { children: any; active: boolean; onClick: () => void }) {
+function Chip({ children, active, onClick }: { children: React.ReactNode; active: boolean; onClick: () => void }) {
   const cls = active
     ? "bg-blue-600 text-white border-blue-600"
     : "bg-white text-slate-700 border-slate-300 hover:border-slate-500";
@@ -751,7 +751,7 @@ function Chip({ children, active, onClick }: { children: any; active: boolean; o
   );
 }
 
-function Toggle({ children, active, onClick }: { children: any; active: boolean; onClick: () => void }) {
+function Toggle({ children, active, onClick }: { children: React.ReactNode; active: boolean; onClick: () => void }) {
   const cls = active
     ? "bg-slate-900 text-white border-slate-900"
     : "bg-white text-slate-700 border-slate-300 hover:border-slate-500";
@@ -768,7 +768,7 @@ function PrimaryButton({
   disabled,
   type = "button",
 }: {
-  children: any;
+  children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
   type?: "button" | "submit";
