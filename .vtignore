@@ -1,0 +1,6 @@
+dogfood-output/
+*_test.ts
+
+.git
+.gitignore
+DESIGN.md
